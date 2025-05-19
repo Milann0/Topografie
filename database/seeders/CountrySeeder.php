@@ -13,37 +13,52 @@ class CountrySeeder extends Seeder
     public function run(): void
     {
         $countries = [
-            'Albania', 'Andorra', 'Armenia', 'Austria', 'Azerbaijan',
-            'Belarus', 'Belgium', 'Bosnia and Herzegovina', 'Bulgaria',
-            'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia',
-            'Finland', 'France', 'Georgia', 'Germany', 'Greece',
-            'Hungary', 'Iceland', 'Ireland', 'Italy', 'Kazakhstan',
-            'Kosovo', 'Latvia', 'Liechtenstein', 'Lithuania',
-            'Luxembourg', 'Malta', 'Moldova', 'Monaco', 'Montenegro',
-            'Netherlands', 'North Macedonia', 'Norway', 'Poland',
-            'Portugal', 'Romania', 'Russia', 'San Marino', 'Serbia',
-            'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Switzerland',
-            'Turkey', 'Ukraine', 'United Kingdom', 'Vatican City'
+            ['code' => 'PT', 'name' => 'Portugal'],
+            ['code' => 'ES', 'name' => 'Spain'],
+            ['code' => 'FR', 'name' => 'France'],
+            ['code' => 'BE', 'name' => 'Belgium'],
+            ['code' => 'NL', 'name' => 'Netherlands'],
+            ['code' => 'LU', 'name' => 'Luxembourg'],
+            ['code' => 'GB', 'name' => 'United Kingdom'],
+            ['code' => 'IE', 'name' => 'Ireland'],
+            ['code' => 'DE', 'name' => 'Germany'],
+            ['code' => 'DK', 'name' => 'Denmark'],
+            ['code' => 'NO', 'name' => 'Norway'],
+            ['code' => 'SE', 'name' => 'Sweden'],
+            ['code' => 'FI', 'name' => 'Finland'],
+            ['code' => 'EE', 'name' => 'Estonia'],
+            ['code' => 'LV', 'name' => 'Latvia'],
+            ['code' => 'LT', 'name' => 'Lithuania'],
+            ['code' => 'PL', 'name' => 'Poland'],
+            ['code' => 'CZ', 'name' => 'Czech Republic'],
+            ['code' => 'SK', 'name' => 'Slovakia'],
+            ['code' => 'AT', 'name' => 'Austria'],
+            ['code' => 'HU', 'name' => 'Hungary'],
+            ['code' => 'CH', 'name' => 'Switzerland'],
+            ['code' => 'IT', 'name' => 'Italy'],
+            ['code' => 'SI', 'name' => 'Slovenia'],
+            ['code' => 'HR', 'name' => 'Croatia'],
+            ['code' => 'BA', 'name' => 'Bosnia and Herzegovina'],
+            ['code' => 'RS', 'name' => 'Serbia'],
+            ['code' => 'ME', 'name' => 'Montenegro'],
+            ['code' => 'XK', 'name' => 'Kosovo'],
+            ['code' => 'AL', 'name' => 'Albania'],
+            ['code' => 'MK', 'name' => 'North Macedonia'],
+            ['code' => 'GR', 'name' => 'Greece'],
+            ['code' => 'BG', 'name' => 'Bulgaria'],
+            ['code' => 'RO', 'name' => 'Romania'],
+            ['code' => 'MD', 'name' => 'Moldova'],
+            ['code' => 'UA', 'name' => 'Ukraine'],
+            ['code' => 'BY', 'name' => 'Belarus'],
+            ['code' => 'RU', 'name' => 'Russia (western part)'],
+            ['code' => 'TR', 'name' => 'Turkey (European part)'],
+            ['code' => 'IS', 'name' => 'Iceland'],
         ];
 
-        $countryCodes = [
-            'AL', 'AD', 'AM', 'AT', 'AZ',
-            'BY', 'BE', 'BA', 'BG',
-            'HR', 'CY', 'CZ', 'DK', 'EE',
-            'FI', 'FR', 'GE', 'DE', 'GR',
-            'HU', 'IS', 'IE', 'IT', 'KZ',
-            'XK', 'LV', 'LI', 'LT',
-            'LU', 'MT', 'MD', 'MC', 'ME',
-            'NL', 'MK', 'NO', 'PL',
-            'PT', 'RO', 'RU', 'SM', 'RS',
-            'SK', 'SI', 'ES', 'SE', 'CH',
-            'TR', 'UA', 'GB', 'VA'
-        ];
-
-        foreach ($countries as $index => $country) {
-            DB::table('brands')->insert([
-                'name' => $country,
-                'code' => $countryCodes[$index],
+        foreach ($countries as $country) {
+            DB::table('countries')->insert([
+                'name' => $country['name'],
+                'code' => $country['code'],
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
