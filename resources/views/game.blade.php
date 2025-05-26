@@ -38,11 +38,11 @@
 
         #header {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
             padding: 15px 30px 0 30px;
             min-height: 80px;
-            justify-content: center;
+            gap: 10px;
         }
 
         #country-name {
@@ -51,10 +51,8 @@
             background: rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             font-weight: bold;
-            margin: 0 auto;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-left: 43%;
         }
 
         #score {
@@ -63,7 +61,7 @@
             padding: 8px 18px;
             border-radius: 8px;
             font-weight: bold;
-            margin-left: 20px;
+            margin-left: 0px;
         }
 
         #map {
@@ -89,12 +87,12 @@
         #result {
             font-size: 18px;
             padding: 10px;
-            border-radius: 8px;
             min-height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 10px;
+            width: 100%;
         }
 
         .correct {
