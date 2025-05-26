@@ -8,8 +8,8 @@ class GameController extends Controller
 {
     public function index()
     {
-        $land = Country::inRandomOrder()->first();
+        $countries = Country::all(['name', 'code']);
 
-        return view('game', compact('land'));
+        return view('game', compact('countries'));
     }
 }
