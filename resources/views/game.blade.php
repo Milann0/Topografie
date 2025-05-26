@@ -146,7 +146,7 @@
         const map = L.map('map', {
             zoomControl: false,
             scrollWheelZoom: false,
-            dragging: true,
+            dragging: false,
             attributionControl: false
         }).setView([54, 15], 4);
         map.doubleClickZoom.disable();
