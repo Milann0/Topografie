@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/game', [GameController::class, 'index']);
+Route::get('/games', [GameController::class, 'indexAllGames'])->name('games.allIndex');
 Route::post('/check', [GameController::class, 'check']);
 
 require __DIR__.'/auth.php';
