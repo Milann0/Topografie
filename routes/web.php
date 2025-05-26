@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,5 +21,8 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/game', [GameController::class, 'index']);
 Route::post('/check', [GameController::class, 'check']);
+
+Route::get('/student/login', function () {  return view('student.login'); })->name('student.login');
+
 
 require __DIR__.'/auth.php';
