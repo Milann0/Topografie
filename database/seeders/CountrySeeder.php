@@ -44,14 +44,13 @@ class CountrySeeder extends Seeder
             ['name' => 'Slovenia', 'code' => 'SI'],
             ['name' => 'Latvia', 'code' => 'LV'],
             ['name' => 'Estonia', 'code' => 'EE'],
-            ['name' => 'North Macedonia', 'code' => 'MK'],
+            ['name' => 'The former Yugoslav Republic of Macedonia', 'code' => 'MK'],
             ['name' => 'Moldova', 'code' => 'MD'],
             ['name' => 'Luxembourg', 'code' => 'LU'],
             ['name' => 'Malta', 'code' => 'MT'],
             ['name' => 'Iceland', 'code' => 'IS'],
             ['name' => 'Turkey', 'code' => 'TR'],
             ['name' => 'Montenegro', 'code' => 'ME'],
-            ['name' => 'Kosovo', 'code' => 'XK'],
         ];
 
         foreach ($countries as $country) {
