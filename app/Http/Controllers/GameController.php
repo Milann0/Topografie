@@ -18,7 +18,17 @@ class GameController extends Controller
     {
         $sort = request('sort');
         $direction = request('direction', 'asc');
+        $search = request('search');
+
         $games = Game::with('user');
+
+        if ($search) {
+            $games->whereHas('user', function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('lastname', 'like', "%{$search}%");
+            });
+        }
+
         if ($sort === 'score') {
             $games->orderBy('score', $direction);
         } elseif ($sort === 'user') {
@@ -29,7 +39,9 @@ class GameController extends Controller
         } elseif ($sort === 'finished') {
             $games->orderBy('created_at', $direction);
         }
+
         $games = $games->get();
+
         return view('games.index', compact('games'));
     }
 }

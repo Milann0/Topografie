@@ -17,13 +17,12 @@
                             <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-sm font-semibold text-gray-900">
-                                    ID
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-left text-sm font-semibold text-gray-900">
                                     Firstname
                                 </th>
                                 <th scope="col" class="px-6 py-3 text-left text-sm font-semibold text-gray-900">
                                     Lastname
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-sm font-semibold text-gray-900">
                                 </th>
                             </tr>
                             </thead>
@@ -31,13 +30,15 @@
                             @forelse($students as $student)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {{ $student->id }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         {{ $student->name }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         {{ $student->lastname }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <x-link-button href="{{ route('students.show', $student->id) }}">
+                                            Show more
+                                        </x-link-button>
                                     </td>
                                 </tr>
                             @empty

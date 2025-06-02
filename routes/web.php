@@ -24,8 +24,12 @@ Route::post('/check', [GameController::class, 'check']);
 Route::get('/games', [GameController::class, 'indexAllGames'])->name('games.allIndex');
 
 Route::get('/students', [\App\Http\Controllers\StudentController::class, 'index'])->name('students.index');
-Route::get('/create', [\App\Http\Controllers\StudentController::class, 'create'])->name('students.create');
-Route::post('/store', [\App\Http\Controllers\StudentController::class, 'store'])->name('students.store');
+Route::get('/students/create', [\App\Http\Controllers\StudentController::class, 'create'])->name('students.create');
+Route::post('/students/store', [\App\Http\Controllers\StudentController::class, 'store'])->name('students.store');
+Route::get('/students/{student}', [\App\Http\Controllers\StudentController::class, 'show'])->name('students.show');
+Route::delete('/students/{student}', [\App\Http\Controllers\StudentController::class, 'destroy'])->name('students.destroy');
+Route::get('/students/{student}/edit', [\App\Http\Controllers\StudentController::class, 'edit'])->name('students.edit');
+Route::put('/students/{student}', [\App\Http\Controllers\StudentController::class, 'update'])->name('students.update');
 
 Route::get('/student/login', function () {  return view('student.login'); })->name('student.login');
 

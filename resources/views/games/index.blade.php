@@ -14,6 +14,21 @@
         <div class="max-w-7xl mx-auto">
             <div class="bg-white shadow sm:rounded-lg">
                 <div class="p-6">
+                    <form method="GET" action="{{ route('games.allIndex') }}" class="mb-4 flex gap-2">
+                        <input
+                                type="text"
+                                name="search"
+                                value="{{ request('search') }}"
+                                placeholder="Search by student name"
+                                class="px-4 py-2 border rounded-md focus:outline-none focus:ring w-full max-w-xs"
+                        />
+                        <button
+                                type="submit"
+                                class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                        >
+                            Search
+                        </button>
+                    </form>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-gray-50">
@@ -48,7 +63,7 @@
                                         {{ $game->score }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {{ $game->user->name }} {{ $game->user->lastname }}
+                                        <a href="{{ route('students.show', $game->user->id) }}">{{ $game->user->name }} {{ $game->user->lastname }}</a>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         {{ $game->created_at }}

@@ -9,7 +9,7 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = User::all();
+        $students = User::where('role', 'user')->get();
 
         return view('students.index', compact('students'));
     }
@@ -39,4 +39,41 @@ class StudentController extends Controller
             dd($e);
         }
     }
+
+    public function show(User $student)
+    {
+        return view('students.show', compact('student'));
+    }
+
+    public function destroy(User $student)
+    {
+        $student->delete();
+
+        return redirect()->route('students.index')->with('success', 'Student deleted!');
+    }
+
+    public function edit(User $student)
+    {
+        return view('students.edit', compact('student'));
+    }
+
+    public function update(Request $request, User $student)
+    {
+        try {
+            $validated = $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'lastname' => ['required', 'string', 'max:255'],
+            ]);
+
+            $student->name = $validated['name'];
+            $student->lastname = $validated['lastname'];
+            $student->save();
+
+            return redirect()->route('students.index')->with('success', 'Student updated!');
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+
 }
