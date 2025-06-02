@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/game', [GameController::class, 'index']);
+Route::get('/capitals', [GameController::class, 'cityIndex']);
 Route::post('/check', [GameController::class, 'check']);
 Route::get('/games', [GameController::class, 'indexAllGames'])->name('games.allIndex');
 

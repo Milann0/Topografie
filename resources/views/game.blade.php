@@ -95,6 +95,33 @@
             width: 100%;
         }
 
+        #game-complete {
+            font-size: 20px;
+            padding: 15px;
+            background: rgba(76, 175, 80, 0.9);
+            border-radius: 12px;
+            margin: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #restart-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        #restart-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
         .correct {
             background: rgba(76, 175, 80, 0.8) !important;
         }
@@ -138,8 +165,18 @@
         let totalQuestions = 0;
         let geojsonLayer = null;
         let gameActive = true;
+        let usedCountries = new Set();
+        let availableCountries = [];
 
         const europeanCountries = @json($countries);
+
+        function initializeGame() {
+            availableCountries = [...europeanCountries];
+            usedCountries.clear();
+            correctAnswers = 0;
+            totalQuestions = europeanCountries.length;
+            updateScore();
+        }
 
         const map = L.map('map', {
             zoomControl: false,
@@ -185,6 +222,7 @@
                 }
 
                 function onEachFeature(feature, layer) {
+                     console.log(feature.properties); 
                     layer.on({
                         mouseover: highlightFeature,
                         mouseout: resetHighlight,
@@ -195,9 +233,13 @@
                             const resultDiv = document.getElementById('result');
 
                             gameActive = false;
-                            totalQuestions++;
 
-                            const isCorrect = clickedCountryName.toLowerCase() === currentCountry.name.toLowerCase();
+                                const clickedCode = feature.properties.ISO2 || '';
+                                const currentCode = currentCountry.code;
+
+                                console.log(`Clicked Code: ${clickedCode}, Current Code: ${currentCode}`);
+
+                                const isCorrect = clickedCode.toUpperCase() === currentCode.toUpperCase();
 
                             if (isCorrect) {
                                 correctAnswers++;
@@ -234,9 +276,18 @@
 
                             updateScore();
 
-                            setTimeout(() => {
-                                startNewRound();
-                            }, 3000);
+                            // Mark country as used
+                            usedCountries.add(currentCountry.name);
+
+                            if (usedCountries.size >= europeanCountries.length) {
+                                setTimeout(() => {
+                                    showGameComplete();
+                                }, 3000);
+                            } else {
+                                setTimeout(() => {
+                                    startNewRound();
+                                }, 3000);
+                            }
                         }
                     });
                 }
@@ -246,6 +297,7 @@
                     onEachFeature: onEachFeature
                 }).addTo(map);
 
+                initializeGame();
                 startNewRound();
             })
             .catch(err => {
@@ -260,13 +312,42 @@
                 });
             }
 
-            currentCountry = europeanCountries[Math.floor(Math.random() * europeanCountries.length)];
+            availableCountries = europeanCountries.filter(country => !usedCountries.has(country.name));
+
+            if (availableCountries.length === 0) {
+                showGameComplete();
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * availableCountries.length);
+            currentCountry = availableCountries[randomIndex];
 
             document.getElementById('country-name').textContent = currentCountry.name;
             document.getElementById('result').textContent = '';
             document.getElementById('result').className = '';
 
             gameActive = true;
+        }
+
+        function showGameComplete() {
+            const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = `
+                <div id="game-complete">
+                    🎉 Game Complete! 🎉<br>
+                    Final Score: ${correctAnswers}/${totalQuestions} (${percentage}%)<br>
+                    <button id="restart-btn" onclick="restartGame()">Play Again</button>
+                </div>
+            `;
+            
+            document.getElementById('country-name').textContent = 'All countries completed!';
+            gameActive = false;
+        }
+
+        function restartGame() {
+            initializeGame();
+            startNewRound();
         }
 
         function updateScore() {

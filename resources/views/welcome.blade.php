@@ -96,7 +96,7 @@
 
   <div class="container">
     <a href="{{ url('/game') }}" class="button-link" id="btn-countries" role="button" aria-label="Countries game">Countries</a>
-    <button id="btn-capitals" aria-label="Capitals game">Capitals</button>
+    <a href="{{ url('/capitals') }}" class="button-link" id="btn-capitals" role="button" aria-label="Capitals game">Capitals</a>
   </div>
 
 </body>
