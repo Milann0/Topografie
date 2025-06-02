@@ -14,6 +14,13 @@ class GameController extends Controller
         return view('game', compact('countries'));
     }
 
+        public function cityIndex()
+    {
+        $capitals = Country::all(['name', 'code']);
+
+        return view('citiesGame', compact('capitals'));
+    }
+
     public function indexAllGames()
     {
         $sort = request('sort');
