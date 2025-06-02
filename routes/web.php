@@ -21,6 +21,11 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/game', [GameController::class, 'index']);
 Route::post('/check', [GameController::class, 'check']);
+Route::get('/games', [GameController::class, 'indexAllGames'])->name('games.allIndex');
+
+Route::get('/students', [\App\Http\Controllers\StudentController::class, 'index'])->name('students.index');
+Route::get('/create', [\App\Http\Controllers\StudentController::class, 'create'])->name('students.create');
+Route::post('/store', [\App\Http\Controllers\StudentController::class, 'store'])->name('students.store');
 
 Route::get('/student/login', function () {  return view('student.login'); })->name('student.login');
 
