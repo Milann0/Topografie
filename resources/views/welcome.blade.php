@@ -94,10 +94,24 @@
 </head>
 <body>
 
-  <div class="container">
+<div class="container">
     <a href="{{ url('/game') }}" class="button-link" id="btn-countries" role="button" aria-label="Countries game">Countries</a>
     <button id="btn-capitals" aria-label="Capitals game">Capitals</button>
-  </div>
+
+    @auth
+        @if(auth()->user()->is_admin)
+            <a href="{{ url('/dashboard') }}" class="button-link" role="button" aria-label="Dashboard">Dashboard</a>
+        @endif
+
+        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+            @csrf
+            <button type="submit" class="button-link" aria-label="Logout">
+                Logout
+            </button>
+        </form>
+    @endauth
+</div>
+
 
 </body>
 </html>
