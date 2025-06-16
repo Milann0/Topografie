@@ -15,36 +15,63 @@
             <div class="bg-white shadow sm:rounded-lg">
                 <div class="p-6">
                     <!-- Filters and Search -->
-                    <div class="mb-6 flex flex-col sm:flex-row gap-4">
-                        <form method="GET" action="{{ route('games.allIndex') }}" class="flex gap-2 flex-1">
-                            <input
-                                type="text"
-                                name="search"
-                                value="{{ request('search') }}"
-                                placeholder="Search by student name"
-                                class="px-4 py-2 border rounded-md focus:outline-none focus:ring w-full max-w-xs h-8"
-                            />
-                            <select name="game_type" class="px-4 py-2 border rounded-md focus:outline-none focus:ring h-8">
-                                <option value="">All Game Types</option>
-                                <option value="countries" {{ request('game_type') === 'countries' ? 'selected' : '' }}>Countries</option>
-                                <option value="capitals" {{ request('game_type') === 'capitals' ? 'selected' : '' }}>Capitals</option>
-                            </select>
-                            <button
-                                type="submit"
-                                class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 h-8"
-                            >
-                                Search
-                            </button>
-                            <!-- Export button -->
-                            <a href="{{ route('games.exportCsv', request()->all()) }}"
-                               class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 h-8 whitespace-nowrap"
-                            >
-                                Export to Excel
-                            </a>
+                    <div class="mb-6 flex flex-col lg:flex-row gap-4">
+                        <form method="GET" action="{{ route('games.allIndex') }}" class="flex flex-col sm:flex-row gap-2 flex-1">
+                            <!-- Preserve existing sort parameters -->
+                            @if(request('sort'))
+                                <input type="hidden" name="sort" value="{{ request('sort') }}">
+                            @endif
+                            @if(request('direction'))
+                                <input type="hidden" name="direction" value="{{ request('direction') }}">
+                            @endif
+                            
+                            <div class="flex gap-2 flex-1">
+                                <input
+                                    type="text"
+                                    name="search"
+                                    value="{{ request('search') }}"
+                                    placeholder="Search by student name"
+                                    class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full max-w-xs h-10"
+                                />
+                                <select name="game_type" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent h-10 w-40">
+                                    <option value="">All Game Types</option>
+                                    <option value="countries" {{ request('game_type') === 'countries' ? 'selected' : '' }}>Countries</option>
+                                    <option value="capitals" {{ request('game_type') === 'capitals' ? 'selected' : '' }}>Capitals</option>
+                                </select>
+                                <button
+                                    type="submit"
+                                    class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors whitespace-nowrap h-10"
+                                >
+                                    Search
+                                </button>
+                                @if(request('search') || request('game_type'))
+                                    <a
+                                        href="{{ route('games.allIndex') }}"
+                                        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors whitespace-nowrap h-10 flex items-center"
+                                    >
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                        Clear
+                                    </a>
+                                @endif
+                            </div>
                         </form>
 
+                        <!-- Export button -->
+                        <div class="flex items-center">
+                            <a href="{{ route('games.exportCsv', request()->all()) }}"
+                               class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors whitespace-nowrap h-10 flex items-center"
+                            >
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                Export to Excel
+                            </a>
+                        </div>
+
                         <!-- Game Statistics -->
-                        <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="bg-gray-50 p-4 rounded-lg min-w-fit">
                             <h3 class="font-semibold text-gray-700 mb-2">Statistics</h3>
                             <div class="grid grid-cols-2 gap-4 text-sm">
                                 <div>
@@ -143,13 +170,6 @@
                                             {{ $game->user->name }} {{ $game->user->lastname }}
                                         </a>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                            {{ $game->game_type === 'countries' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' }}">
-                                            {{ $game->game_type === 'countries' ? '🗺️ Countries' : '🏛️ Capitals' }}
-                                        </span>
-                                    </td>
-                                    <tr class="hover:bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                                             {{ $game->game_type === 'countries' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' }}">

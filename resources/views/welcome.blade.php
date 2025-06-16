@@ -77,7 +77,7 @@
       background-image: url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
     }
     #btn-dashboard::before {
-      background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        background: linear-gradient(135deg, #3498db, #2980b9);
     }
     #btn-logout::before {
       background: linear-gradient(135deg, #e74c3c, #c0392b);
@@ -153,7 +153,7 @@
   </style>
 </head>
 <body>
-  <h1 class="page-title">Geografie</h1>
+  <h1 class="page-title">Geography</h1>
   <div class="container">
     <a href="{{ url('/game') }}" class="button-link" id="btn-countries" role="button" aria-label="Countries game">
       Countries
@@ -162,7 +162,7 @@
       Capitals
     </a>
     @auth
-      @if(auth()->user()->is_admin)
+      @if(Auth::user()->role == 'admin')
         <a href="{{ url('/dashboard') }}" class="button-link" id="btn-dashboard" role="button" aria-label="Dashboard">
           Dashboard
         </a>
