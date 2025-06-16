@@ -13,7 +13,7 @@ Route::get('/', function () {
         return view('welcome');
     }
     return redirect()->route('student.login');
-});
+})->name('home');
 
 // Dashboard alleen bereikbaar als ingelogd én verified
 Route::get('/dashboard', function () {
@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/capitals', [GameController::class, 'cityIndex']);
     Route::post('/check', [GameController::class, 'check']);
     Route::get('/games', [GameController::class, 'indexAllGames'])->name('games.allIndex');
-    
+   
     // API route for saving game scores
     Route::post('/api/games/save-score', [GameController::class, 'saveScore'])->name('games.saveScore');
 });

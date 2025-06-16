@@ -12,7 +12,7 @@
                     <x-link-button href="{{ route('students.create') }}">
                         + New Student
                     </x-link-button>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto mt-6">
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-gray-50">
                             <tr>

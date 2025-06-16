@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+                    Welcome to the admin dashboard, here you can check student's games, check existing students, add new students, edit student's info and delete students.
                 </div>
             </div>
         </div>
