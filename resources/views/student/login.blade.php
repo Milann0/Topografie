@@ -33,14 +33,12 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
-        <!-- 🔽 Extra knop voor student login -->
-        <div class="flex justify-center mt-6">
-            <a href="{{ url('/login') }}">
-                <x-secondary-button>
-                    {{ __('Admin Login') }}
-                </x-secondary-button>
-            </a>
+        <!-- 🔽 Extra knop voor admin login -->
+         <div class="mt-6 text-center">
+        <a href="{{ route('login') }}" class="underline text-sm text-gray-600 hover:text-gray-900">
+            Admin login
+        </a>
 
-        </div>
+    </div>
     </form>
 </x-guest-layout>

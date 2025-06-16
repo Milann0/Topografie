@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Grote buttons met achtergrondafbeelding</title>
+  <title>Topografie</title>
   <style>
     * {
       box-sizing: border-box;
@@ -82,7 +82,6 @@
       color: #fff;
       text-shadow: 0 0 5px rgba(0,0,0,0.7);
     }
-
     @media (max-width: 700px) {
       a.button-link, button {
         width: 90vw;
@@ -93,11 +92,20 @@
   </style>
 </head>
 <body>
-
-  <div class="container">
+<div class="container">
     <a href="{{ url('/game') }}" class="button-link" id="btn-countries" role="button" aria-label="Countries game">Countries</a>
     <a href="{{ url('/capitals') }}" class="button-link" id="btn-capitals" role="button" aria-label="Capitals game">Capitals</a>
-  </div>
-
+    @auth
+        @if(auth()->user()->is_admin)
+            <a href="{{ url('/dashboard') }}" class="button-link" role="button" aria-label="Dashboard">Dashboard</a>
+        @endif
+        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+            @csrf
+            <button type="submit" class="button-link" aria-label="Logout">
+                Logout
+            </button>
+        </form>
+    @endauth
+</div>
 </body>
 </html>

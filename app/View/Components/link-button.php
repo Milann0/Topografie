@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class link-button extends Component
+class LinkButton extends Component
 {
     /**
      * Create a new component instance.
@@ -24,3 +24,4 @@ class link-button extends Component
         return view('components.link-button');
     }
 }
+
