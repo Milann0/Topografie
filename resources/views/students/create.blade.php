@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Create student') }}
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Create student
         </h2>
     </x-slot>
 
@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("Create Student") }}
+                    Create a student by filling in their first name and last name.
                     <form method="POST" action="{{ route('students.store') }}" enctype="multipart/form-data">
                         <br>
                         @csrf
@@ -26,9 +26,9 @@
                         </div>
 
                         <div class="mt-4">
-                            <x-primary-button>
+                            <x-link-button>
                                 {{ __('Create') }}
-                            </x-primary-button>
+                            </x-link-button>
                         </div>
                     </form>
                 </div>

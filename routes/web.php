@@ -13,7 +13,7 @@ Route::get('/', function () {
         return view('welcome'); // of dashboard
     }
     return redirect()->route('student.login');
-});
+})->name('home');
 
 // Dashboard alleen bereikbaar als ingelogd én verified
 Route::get('/dashboard', function () {
