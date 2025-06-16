@@ -35,8 +35,14 @@
                             >
                                 Search
                             </button>
+                            <!-- Export button -->
+                            <a href="{{ route('games.exportCsv', request()->all()) }}"
+                               class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 h-8 whitespace-nowrap"
+                            >
+                                Export to Excel
+                            </a>
                         </form>
-                        
+
                         <!-- Game Statistics -->
                         <div class="bg-gray-50 p-4 rounded-lg">
                             <h3 class="font-semibold text-gray-700 mb-2">Statistics</h3>
@@ -137,6 +143,13 @@
                                             {{ $game->user->name }} {{ $game->user->lastname }}
                                         </a>
                                     </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                            {{ $game->game_type === 'countries' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' }}">
+                                            {{ $game->game_type === 'countries' ? '🗺️ Countries' : '🏛️ Capitals' }}
+                                        </span>
+                                    </td>
+                                    <tr class="hover:bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                                             {{ $game->game_type === 'countries' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' }}">

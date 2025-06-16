@@ -146,4 +146,34 @@ class GameController extends Controller
             'stats' => $stats
         ]);
     }
+
+    public function exportCsv()
+    {
+        $games = Game::with('user')
+            ->when(request('search'), fn($query) => $query->whereHas('user', fn($q) => $q->where('name', 'like', '%'.request('search').'%')))
+            ->when(request('game_type'), fn($query) => $query->where('game_type', request('game_type')))
+            ->get();
+
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="games.csv"');
+
+        $output = fopen('php://output', 'w');
+        fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+        fputcsv($output, ['ID', 'SCORE', 'PERCENTAGE (%)', 'USER NAME', 'GAME TYPE', 'FINISHED']);
+
+        foreach ($games as $game) 
+        {
+            fputcsv($output, [
+                $game->id,
+                $game->score . '/' . ($game->total_questions ?? 'N/A'),
+                number_format($game->percentage ?? 0, 2),  
+                $game->user->name . ' ' . $game->user->lastname,
+                ucfirst($game->game_type),
+                $game->finished ? 'Yes' : 'No',
+            ]);
+        }
+
+        fclose($output);
+        exit;
+    }
 }
