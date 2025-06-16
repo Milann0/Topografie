@@ -82,3 +82,5 @@ Route::post('/logout', function () {
     request()->session()->regenerateToken();
     return redirect()->route('student.login');
 })->name('logout');
+
+Route::get('/games/export', [GameController::class, 'exportCsv'])->name('games.exportCsv');

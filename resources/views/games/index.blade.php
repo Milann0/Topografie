@@ -57,7 +57,19 @@
                                 @endif
                             </div>
                         </form>
-                        
+
+                        <!-- Export button -->
+                        <div class="flex items-center">
+                            <a href="{{ route('games.exportCsv', request()->all()) }}"
+                               class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors whitespace-nowrap h-10 flex items-center"
+                            >
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                Export to Excel
+                            </a>
+                        </div>
+
                         <!-- Game Statistics -->
                         <div class="bg-gray-50 p-4 rounded-lg min-w-fit">
                             <h3 class="font-semibold text-gray-700 mb-2">Statistics</h3>
@@ -161,7 +173,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                                             {{ $game->game_type === 'countries' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' }}">
-                                            {{ $game->game_type === 'countries' ? 'Countries' : 'Capitals' }}
+                                            {{ $game->game_type === 'countries' ? '🗺️ Countries' : '🏛️ Capitals' }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
