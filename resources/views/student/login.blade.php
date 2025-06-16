@@ -1,10 +1,10 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('login') }}">
+    
+    <form method="POST" action="{{ route('student.login.submit') }}">
         @csrf
-
+        
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('First Name')" />
@@ -19,7 +19,6 @@
             <x-input-error :messages="$errors->get('lastname')" class="mt-2" />
         </div>
 
-
         <!-- Remember Me -->
         <div class="block mt-4">
             <label for="remember_me" class="inline-flex items-center">
@@ -33,12 +32,12 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
-        <!-- 🔽 Extra knop voor admin login -->
-         <div class="mt-6 text-center">
-        <a href="{{ route('login') }}" class="underline text-sm text-gray-600 hover:text-gray-900">
-            Admin login
-        </a>
 
-    </div>
+        <!-- Admin login link -->
+        <div class="mt-6 text-center">
+            <a href="{{ route('login') }}" class="underline text-sm text-gray-600 hover:text-gray-900">
+                Admin login
+            </a>
+        </div>
     </form>
 </x-guest-layout>

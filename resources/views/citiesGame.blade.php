@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>European Capitals Game</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
@@ -165,6 +166,22 @@
             transform: scale(1.2);
         }
 
+        .save-status {
+            font-size: 14px;
+            padding: 5px 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .save-success {
+            background: rgba(76, 175, 80, 0.8) !important;
+        }
+
+        .save-error {
+            background: rgba(244, 67, 54, 0.8) !important;
+        }
+
         @keyframes bounce {
             0%, 20%, 60%, 100% { transform: scale(1.3) translateY(0); }
             40% { transform: scale(1.3) translateY(-8px); }
@@ -214,6 +231,7 @@
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         let currentCapital = null;
         let correctAnswers = 0;
@@ -222,6 +240,9 @@
         let usedCapitals = new Set();
         let availableCapitals = [];
         let capitalMarkers = [];
+
+        // Set up axios with CSRF token
+        axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
         const europeanCapitals = [
             { name: 'London', lat: 51.5074, lon: -0.1278, country: 'United Kingdom' },
@@ -373,17 +394,46 @@
             gameActive = true;
         }
 
+        async function saveGameScore() {
+            try {
+                const response = await axios.post('/api/games/save-score', {
+                    score: correctAnswers,
+                    total_questions: totalQuestions,
+                    game_type: 'capitals'
+                });
+                
+                if (response.data.success) {
+                    console.log('Score saved successfully');
+                    return true;
+                } else {
+                    console.error('Failed to save score:', response.data.message);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error saving score:', error);
+                return false;
+            }
+        }
+
         function showGameComplete() {
             const percentage = Math.round((correctAnswers / totalQuestions) * 100);
             const resultDiv = document.getElementById('result');
             
-            resultDiv.innerHTML = `
-                <div id="game-complete">
-                    🎉 Game Complete! 🎉<br>
-                    Final Score: ${correctAnswers}/${totalQuestions} (${percentage}%)<br>
-                    <button id="restart-btn" onclick="restartGame()">Play Again</button>
-                </div>
-            `;
+            // Save score to database
+            saveGameScore().then(saved => {
+                const saveStatus = saved ? 
+                    '<div class="save-status save-success">✅ Score saved!</div>' : 
+                    '<div class="save-status save-error">❌ Failed to save score</div>';
+                
+                resultDiv.innerHTML = `
+                    <div id="game-complete">
+                        🎉 Game Complete! 🎉<br>
+                        Final Score: ${correctAnswers}/${totalQuestions} (${percentage}%)<br>
+                        ${saveStatus}
+                        <button id="restart-btn" onclick="restartGame()">Play Again</button>
+                    </div>
+                `;
+            });
             
             document.getElementById('capital-name').textContent = 'All capitals completed!';
             gameActive = false;
