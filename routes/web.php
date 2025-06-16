@@ -10,7 +10,7 @@ use App\Http\Controllers\StudentController;
 // Root: check ingelogd, anders redirect naar student login
 Route::get('/', function () {
     if (Auth::check()) {
-        return view('welcome'); // of dashboard
+        return view('welcome');
     }
     return redirect()->route('student.login');
 });
@@ -27,35 +27,47 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Games
-Route::get('/game', [GameController::class, 'index']);
-Route::get('/capitals', [GameController::class, 'cityIndex']);
-Route::post('/check', [GameController::class, 'check']);
-Route::get('/games', [GameController::class, 'indexAllGames'])->name('games.allIndex');
+// Games - voeg middleware toe als deze beschermd moeten zijn
+Route::middleware('auth')->group(function () {
+    Route::get('/game', [GameController::class, 'index']);
+    Route::get('/capitals', [GameController::class, 'cityIndex']);
+    Route::post('/check', [GameController::class, 'check']);
+    Route::get('/games', [GameController::class, 'indexAllGames'])->name('games.allIndex');
+});
 
-// Studentenbeheer - Complete CRUD operations
-Route::get('/students', [StudentController::class, 'index'])->name('students.index');
-Route::get('/students/create', [StudentController::class, 'create'])->name('students.create');
-Route::post('/students/store', [StudentController::class, 'store'])->name('students.store');
-Route::get('/students/{student}', [StudentController::class, 'show'])->name('students.show');
-Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
-Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
-Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('students.destroy');
+// Studentenbeheer - alleen voor ingelogde gebruikers
+Route::middleware('auth')->group(function () {
+    Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+    Route::get('/students/create', [StudentController::class, 'create'])->name('students.create');
+    Route::post('/students/store', [StudentController::class, 'store'])->name('students.store');
+    Route::get('/students/{student}', [StudentController::class, 'show'])->name('students.show');
+    Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
+    Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
+    Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('students.destroy');
+});
 
-// Student login GET + POST
-Route::get('/student/login', function () {
-    return view('student.login');
-})->name('student.login');
-Route::post('/student/login', [StudentLoginController::class, 'login'])->name('student.login.submit');
+// Student login routes - alleen voor guests
+Route::middleware('guest')->group(function () {
+    Route::get('/student/login', function () {
+        return view('student.login');
+    })->name('student.login');
+    
+    Route::post('/student/login', [StudentLoginController::class, 'login'])->name('student.login.submit');
+});
 
-// Admin login GET + POST
-Route::get('/login', function () {
-    return view('auth.login'); // Laravel standaard admin login view
-})->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+// Admin login routes - alleen voor guests
+Route::middleware('guest')->group(function () {
+    Route::get('/admin/login', function () {
+        return view('auth.login');
+    })->name('login');
+    
+    Route::post('/admin/login', [LoginController::class, 'login'])->name('login.submit');
+});
 
 // Logout route
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect()->route('login'); // of redirect naar student.login als je wilt
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect()->route('student.login');
 })->name('logout');
