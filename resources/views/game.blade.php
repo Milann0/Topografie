@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Geography Game</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
@@ -170,6 +171,8 @@
 
         const europeanCountries = @json($countries);
 
+        // NIET hier de CSRF token instellen - dat veroorzaakt CORS problemen
+
         function initializeGame() {
             availableCountries = [...europeanCountries];
             usedCountries.clear();
@@ -329,9 +332,35 @@
             gameActive = true;
         }
 
+        // TOEGEVOEGD VOOR SCORE SAVING
+        async function saveGameScore() {
+            try {
+                const response = await axios.post('/api/games/save-score', {
+                    score: correctAnswers,
+                    total_questions: totalQuestions,
+                    game_type: 'countries'
+                }, {
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                });
+                
+                if (response.data.success) {
+                    console.log('Score saved successfully');
+                } else {
+                    console.error('Failed to save score:', response.data.message);
+                }
+            } catch (error) {
+                console.error('Error saving score:', error);
+            }
+        }
+
         function showGameComplete() {
             const percentage = Math.round((correctAnswers / totalQuestions) * 100);
             const resultDiv = document.getElementById('result');
+            
+            // TOEGEVOEGD: Score opslaan
+            saveGameScore();
             
             resultDiv.innerHTML = `
                 <div id="game-complete">

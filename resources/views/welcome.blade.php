@@ -153,7 +153,7 @@
   </style>
 </head>
 <body>
-  <h1 class="page-title">Topografie</h1>
+  <h1 class="page-title">Geografie</h1>
   <div class="container">
     <a href="{{ url('/game') }}" class="button-link" id="btn-countries" role="button" aria-label="Countries game">
       Countries

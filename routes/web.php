@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/capitals', [GameController::class, 'cityIndex']);
     Route::post('/check', [GameController::class, 'check']);
     Route::get('/games', [GameController::class, 'indexAllGames'])->name('games.allIndex');
+    
+    // API route for saving game scores
+    Route::post('/api/games/save-score', [GameController::class, 'saveScore'])->name('games.saveScore');
 });
 
 // Studentenbeheer - alleen voor ingelogde gebruikers
@@ -51,7 +54,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/student/login', function () {
         return view('student.login');
     })->name('student.login');
-    
+   
     Route::post('/student/login', [StudentLoginController::class, 'login'])->name('student.login.submit');
 });
 
@@ -60,7 +63,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/admin/login', function () {
         return view('auth.login');
     })->name('login');
-    
+   
     Route::post('/admin/login', [LoginController::class, 'login'])->name('login.submit');
 });
 
