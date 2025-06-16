@@ -1,4 +1,6 @@
 <?php
+
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\LoginController;
@@ -29,10 +31,25 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function () { checkAdmin(); return app(StudentController::class)->index(); })->name('students.index');
         Route::get('/create', function () { checkAdmin(); return app(StudentController::class)->create(); })->name('students.create');
         Route::post('/store', function () { checkAdmin(); return app(StudentController::class)->store(request()); })->name('students.store');
-        Route::get('/{student}', function ($student) { checkAdmin(); return app(StudentController::class)->show($student); })->name('students.show');
-        Route::get('/{student}/edit', function ($student) { checkAdmin(); return app(StudentController::class)->edit($student); })->name('students.edit');
-        Route::put('/{student}', function ($student) { checkAdmin(); return app(StudentController::class)->update(request(), $student); })->name('students.update');
-        Route::delete('/{student}', function ($student) { checkAdmin(); return app(StudentController::class)->destroy($student); })->name('students.destroy');
+        Route::get('/{student}', function (User $student) {
+            checkAdmin();
+            return app(StudentController::class)->show($student);
+        })->name('students.show');
+
+        Route::get('/{student}/edit', function (User $student) {
+            checkAdmin();
+            return app(StudentController::class)->edit($student);
+        })->name('students.edit');
+
+        Route::put('/{student}', function (User $student) {
+            checkAdmin();
+            return app(StudentController::class)->update(request(), $student);
+        })->name('students.update');
+
+        Route::delete('/{student}', function (User $student) {
+            checkAdmin();
+            return app(StudentController::class)->destroy($student);
+        })->name('students.destroy');
     });
 
     Route::get('/games', function () {
