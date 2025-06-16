@@ -43,5 +43,11 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
+
+        <div class="mt-6 text-center">
+            <a href="{{ route('student.login') }}" class="underline text-sm text-gray-600 hover:text-gray-900">
+                Student login
+            </a>
+        </div>
     </form>
 </x-guest-layout>
