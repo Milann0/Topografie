@@ -26,9 +26,9 @@
                         </div>
 
                         <div class="mt-4">
-                            <x-link-button>
+                            <x-primary-button>
                                 {{ __('Create') }}
-                            </x-link-button>
+                            </x-primary-button>
                         </div>
                     </form>
                 </div>
